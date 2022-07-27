@@ -1,0 +1,20 @@
+{
+  "name": "firestore-poker",
+  "version": "1.0.0",
+  "description": "Tooling for poking at data within Firebase's Firestore",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "type": "module",
+  "author": "Ed Cradock",
+  "license": "MIT",
+  "dependencies": {
+    "cli-table": "^0.3.11",
+    "cliffy": "^2.4.3",
+    "colors-cli": "^1.0.28",
+    "commander": "^9.1.0",
+    "firebase": "^9.6.10",
+    "yaml": "^2.0.0"
+  }
+}

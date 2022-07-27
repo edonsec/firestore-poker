@@ -1,0 +1,9 @@
+api_key: <required> 
+auth_domain:  <required>
+project_id: <required>
+storage_bucket: <required>
+#login:
+#  username: <required if login>
+#  password: <required if login>
+collections:
+ - collection_name
