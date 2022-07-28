@@ -29,6 +29,16 @@
 
 This tool can be used to probe an existing Firebase Firestore. Allowing testing for common security vulnerabilities, such as weak permissions.
 
+## Installation:
+
+The easiest way to install is to use "n" to install the latest NodeJS:
+
+```
+npm install -g n
+n latest
+yarn install
+```
+
 ## Usage:
 
 To start with, copy the "config.yaml.dist" and replace the required values with the current project's respective values. To use Firebase, these should be located using static analysis of the application. Collections can be identified using dynamic requests, or otherwise searching the source for "collection". Language specific examples are shown below:
