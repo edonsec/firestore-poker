@@ -8,4 +8,4 @@ test
 admin
 order
 post
-addresses
+address

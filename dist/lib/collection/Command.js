@@ -13,12 +13,14 @@ import {
 } from 'firebase/firestore';
 import Colours from 'colors-cli';
 import Util from './Util.js';
-import Common from '../util/Common.js';
+import pluralize from '../util/Language.js';
 import fs from 'fs';
 import nodeUtil from 'util';
 import path from 'path';
 import YAML from 'yaml';
 import Table from 'cli-table';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 class CollectionDumpCommand {
 	constructor(db, auth, collections) {
@@ -148,9 +150,11 @@ class CollectionCommand {
 			},
 			discovery: {
 				description: 'Discover collections using brute force',
-				options: [{label: 'wordlist', description: 'Text file containing words to test for collections'}],
+				parameters: [
+					{'label': 'wordlist', optional: true, description: 'List of words to use for brute force'}
+				],
 				action: async (params, options) => {
-					await this.discovery(options.wordlist)
+					await this.discovery(params.wordlist)
 				}
 			},
 			commit: {
@@ -184,7 +188,8 @@ class CollectionCommand {
 	}
 
 	async discovery(wordlist) {
-		const wl = wordlist||'collections.txt';
+		const basedir = dirname(fileURLToPath(import.meta.url)) 
+		const wl = wordlist||basedir + '/../../collections.txt';
 
 		/* TODO: Add write check too
 		const res = async () => {
@@ -199,13 +204,21 @@ class CollectionCommand {
 		const	data = fs.readFileSync(wl, 'UTF-8');
 		const lines = data.split(/\r?\n/);
 
-		let f = await lines.forEach(async (line) => {
-				let linet = line.trim();
-				if (linet.length == 0) return;
+		let f = lines.forEach(async (line) => {
+			let linet = line.trim();
+			if (linet.length == 0)
+				return;
 
-				await getDoc(doc(this.db, linet, 'test'))
-				.then(() => { this.collections.push(linet) })
-				.catch((e) => {})
+			let words = [linet, pluralize(linet)];
+			for(let idx in words) {
+				await getDoc(doc(this.db, words[idx], 'test'))
+					.then(() => { 
+						this.collections.push(words[idx]);  
+						console.log(Colours.green('\nFound: ' + words[idx]));
+					})
+					.catch((e) => { });
+					
+				}
 		});
 	}
 

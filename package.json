@@ -4,8 +4,9 @@
   "description": "Tooling for poking at data within Firebase's Firestore",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node dist/index.js"
   },
+  "bin": "dist/index.js",
   "type": "module",
   "author": "Ed Cradock",
   "license": "MIT",
